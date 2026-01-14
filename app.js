@@ -6,7 +6,7 @@ let votedCharacter = null;
 
 // Détecter le chemin de base automatiquement
 function getBasePath() {
-    const path = window.location.pathname;
+    const path = globalThis.location.pathname;
     // Si le pathname se termine par un fichier HTML, retirer le nom du fichier
     if (path.endsWith('.html')) {
         const lastSlash = path.lastIndexOf('/');
@@ -17,6 +17,21 @@ function getBasePath() {
 }
 
 const BASE_PATH = getBasePath();
+
+// Générer ou récupérer un identifiant unique pour cet utilisateur/navigateur
+function getVoterId() {
+    let voterId = localStorage.getItem('voter_id');
+    if (!voterId) {
+        // Générer un UUID v4
+        voterId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            const r = Math.trunc(Math.random() * 16);
+            const v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+        localStorage.setItem('voter_id', voterId);
+    }
+    return voterId;
+}
 
 // Vérifier si l'utilisateur a déjà voté
 function checkVoted() {
@@ -90,10 +105,14 @@ async function handleVote(characterId, characterName) {
     const isChangingVote = voted && votedCharacter !== characterName;
     
     try {
+        const voterId = getVoterId();
         const response = await fetch(`${BASE_PATH}api/vote.php`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ character_id: characterId })
+            body: JSON.stringify({ 
+                character_id: characterId,
+                voter_id: voterId
+            })
         });
 
         const data = await response.json();

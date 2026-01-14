@@ -15,10 +15,17 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 try {
     $data = json_decode(file_get_contents('php://input'), true);
     $character_id = $data['character_id'] ?? null;
+    $voter_id = $data['voter_id'] ?? null;
     
     if (!$character_id) {
         http_response_code(400);
         echo json_encode(['error' => 'Character ID is required']);
+        exit;
+    }
+    
+    if (!$voter_id) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Voter ID is required']);
         exit;
     }
     
@@ -30,16 +37,11 @@ try {
         exit;
     }
     
-    // Récupérer l'IP du client
-    $clientIp = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-    if (strpos($clientIp, ',') !== false) {
-        $clientIp = trim(explode(',', $clientIp)[0]);
-    }
     $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
     
-    // Vérifier si l'utilisateur a déjà voté
+    // Vérifier si l'utilisateur a déjà voté (basé sur voter_id au lieu de l'IP)
     $checkStmt = $db->prepare("SELECT id, character_id FROM votes WHERE voter_ip = ? LIMIT 1");
-    $checkStmt->execute([$clientIp]);
+    $checkStmt->execute([$voter_id]);
     $existingVote = $checkStmt->fetch();
     
     if ($existingVote) {
@@ -59,13 +61,13 @@ try {
         http_response_code(200);
         echo json_encode(['success' => true, 'vote' => $vote, 'updated' => true]);
     } else {
-        // Insérer un nouveau vote
+        // Insérer un nouveau vote (utiliser voter_id dans la colonne voter_ip)
         $insertStmt = $db->prepare("
             INSERT INTO votes (character_id, voter_ip, user_agent) 
             VALUES (?, ?, ?)
         ");
         
-        $insertStmt->execute([$character_id, $clientIp, $userAgent]);
+        $insertStmt->execute([$character_id, $voter_id, $userAgent]);
         
         $voteId = $db->lastInsertId();
         
