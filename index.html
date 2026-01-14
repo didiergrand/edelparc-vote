@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votez pour votre personnage d'anime préféré</title>
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Quel est votre personnage préféré ?</h1>
+            <p>Votez pour votre personnage d'anime préféré</p>
+        </header>
+
+        <!-- Messages -->
+        <div id="success-message" class="message success" style="display: none;"></div>
+        <div id="error-message" class="message error" style="display: none;"></div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Chargement...</p>
+        </div>
+
+        <!-- Characters Grid -->
+        <div id="characters-grid" class="characters-grid" style="display: none;"></div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <a href="results.html" class="btn btn-outline">Voir les résultats</a>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
