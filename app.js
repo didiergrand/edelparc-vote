@@ -43,7 +43,7 @@ function checkVoted() {
     }
 }
 
-// Charger les personnages
+// Charger les char ou groupes
 async function loadCharacters() {
     try {
         const response = await fetch(`${BASE_PATH}api/characters.php`);
@@ -56,12 +56,12 @@ async function loadCharacters() {
         hideLoading();
     } catch (error) {
         console.error('Erreur chargement:', error);
-        showError('Erreur lors du chargement des personnages');
+        showError('Erreur lors du chargement des char ou groupes');
         hideLoading();
     }
 }
 
-// Afficher les personnages
+// Afficher les char ou groupes
 function displayCharacters() {
     const grid = document.getElementById('characters-grid');
     grid.innerHTML = '';

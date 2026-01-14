@@ -22,7 +22,7 @@ try {
         exit;
     }
     
-    // Récupérer les personnages avec le nombre de votes
+    // Récupérer les char ou groupes avec le nombre de votes
     $stmt = $db->query("
         SELECT 
             c.id,

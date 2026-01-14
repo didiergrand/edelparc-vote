@@ -55,15 +55,15 @@ header('Content-Type: text/html; charset=utf-8');
         echo "<div class='error'>❌ Erreur : " . htmlspecialchars($e->getMessage()) . "</div>";
     }
     
-    // Test 3 : Compter les personnages
+    // Test 3 : Compter les char ou groupes
     echo "<h2>3. Données dans la table 'characters'</h2>";
     try {
         $stmt = $db->query("SELECT COUNT(*) as count FROM characters");
         $count = $stmt->fetch()['count'];
         if ($count > 0) {
-            echo "<div class='success'>✅ $count personnage(s) trouvé(s) dans la base</div>";
+            echo "<div class='success'>✅ $count char ou groupe(s) trouvé(s) dans la base</div>";
             
-            // Afficher les personnages
+            // Afficher les char ou groupes
             $characters = $db->query("SELECT id, name, description, order_position FROM characters ORDER BY order_position")->fetchAll();
             echo "<table>";
             echo "<tr><th>ID</th><th>Nom</th><th>Description</th><th>Position</th></tr>";
@@ -77,7 +77,7 @@ header('Content-Type: text/html; charset=utf-8');
             }
             echo "</table>";
         } else {
-            echo "<div class='error'>❌ Aucun personnage trouvé. Importez le fichier SQL !</div>";
+            echo "<div class='error'>❌ Aucun char ou groupe trouvé. Importez le fichier SQL !</div>";
         }
     } catch (PDOException $e) {
         echo "<div class='error'>❌ Erreur : " . htmlspecialchars($e->getMessage()) . "</div>";
@@ -98,7 +98,7 @@ header('Content-Type: text/html; charset=utf-8');
     echo "<div class='info'>";
     echo "<p>Testez l'API en visitant :</p>";
     echo "<ul>";
-    echo "<li><a href='characters.php' target='_blank'>characters.php</a> - Liste des personnages</li>";
+    echo "<li><a href='characters.php' target='_blank'>characters.php</a> - Liste des char ou groupes</li>";
     echo "<li><a href='results.php?password=" . urlencode(ADMIN_PASSWORD) . "' target='_blank'>results.php</a> - Résultats (avec mot de passe)</li>";
     echo "</ul>";
     echo "</div>";
