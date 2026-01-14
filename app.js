@@ -7,14 +7,13 @@ let votedCharacter = null;
 // Détecter le chemin de base automatiquement
 function getBasePath() {
     const path = window.location.pathname;
-    // Si on est dans un sous-dossier (ex: /vote/), retourner ce chemin
-    const parts = path.split('/').filter(p => p);
-    if (parts.length > 0 && parts[parts.length - 1].endsWith('.html')) {
-        // On est dans un fichier HTML, donc dans un sous-dossier
-        parts.pop(); // Enlever le nom du fichier
-        return parts.length > 0 ? '/' + parts.join('/') + '/' : '/';
+    // Si le pathname se termine par un fichier HTML, retirer le nom du fichier
+    if (path.endsWith('.html')) {
+        const lastSlash = path.lastIndexOf('/');
+        return path.substring(0, lastSlash + 1);
     }
-    return '/';
+    // Sinon, s'assurer qu'il y a un / à la fin
+    return path.endsWith('/') ? path : path + '/';
 }
 
 const BASE_PATH = getBasePath();
