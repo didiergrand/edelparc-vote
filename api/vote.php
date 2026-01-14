@@ -38,33 +38,45 @@ try {
     $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
     
     // Vérifier si l'utilisateur a déjà voté
-    $checkStmt = $db->prepare("SELECT id FROM votes WHERE voter_ip = ? LIMIT 1");
+    $checkStmt = $db->prepare("SELECT id, character_id FROM votes WHERE voter_ip = ? LIMIT 1");
     $checkStmt->execute([$clientIp]);
     $existingVote = $checkStmt->fetch();
     
     if ($existingVote) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Vous avez déjà voté']);
-        exit;
+        // Mettre à jour le vote existant au lieu de le bloquer
+        $updateStmt = $db->prepare("
+            UPDATE votes 
+            SET character_id = ?, user_agent = ? 
+            WHERE id = ?
+        ");
+        $updateStmt->execute([$character_id, $userAgent, $existingVote['id']]);
+        
+        // Récupérer le vote mis à jour
+        $voteStmt = $db->prepare("SELECT * FROM votes WHERE id = ?");
+        $voteStmt->execute([$existingVote['id']]);
+        $vote = $voteStmt->fetch();
+        
+        http_response_code(200);
+        echo json_encode(['success' => true, 'vote' => $vote, 'updated' => true]);
+    } else {
+        // Insérer un nouveau vote
+        $insertStmt = $db->prepare("
+            INSERT INTO votes (character_id, voter_ip, user_agent) 
+            VALUES (?, ?, ?)
+        ");
+        
+        $insertStmt->execute([$character_id, $clientIp, $userAgent]);
+        
+        $voteId = $db->lastInsertId();
+        
+        // Récupérer le vote créé
+        $voteStmt = $db->prepare("SELECT * FROM votes WHERE id = ?");
+        $voteStmt->execute([$voteId]);
+        $vote = $voteStmt->fetch();
+        
+        http_response_code(201);
+        echo json_encode(['success' => true, 'vote' => $vote, 'updated' => false]);
     }
-    
-    // Insérer le vote
-    $insertStmt = $db->prepare("
-        INSERT INTO votes (character_id, voter_ip, user_agent) 
-        VALUES (?, ?, ?)
-    ");
-    
-    $insertStmt->execute([$character_id, $clientIp, $userAgent]);
-    
-    $voteId = $db->lastInsertId();
-    
-    // Récupérer le vote créé
-    $voteStmt = $db->prepare("SELECT * FROM votes WHERE id = ?");
-    $voteStmt->execute([$voteId]);
-    $vote = $voteStmt->fetch();
-    
-    http_response_code(201);
-    echo json_encode(['success' => true, 'vote' => $vote]);
     
 } catch (PDOException $e) {
     error_log("Error submitting vote: " . $e->getMessage());

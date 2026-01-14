@@ -57,7 +57,11 @@ function displayCharacters() {
         
         const button = document.createElement('button');
         button.className = 'character-btn';
-        button.disabled = voted;
+        // Permettre de voter même si on a déjà voté (pour changer de vote)
+        button.disabled = false;
+        if (voted && votedCharacter === character.name) {
+            button.classList.add('voted');
+        }
         button.onclick = () => handleVote(character.id, character.name);
         
         button.innerHTML = `
@@ -82,11 +86,9 @@ function displayCharacters() {
 
 // Gérer le vote
 async function handleVote(characterId, characterName) {
-    if (voted) {
-        showError('Vous avez déjà voté !');
-        return;
-    }
-
+    // Permettre de modifier le vote
+    const isChangingVote = voted && votedCharacter !== characterName;
+    
     try {
         const response = await fetch(`${BASE_PATH}api/vote.php`, {
             method: 'POST',
@@ -100,12 +102,15 @@ async function handleVote(characterId, characterName) {
             voted = true;
             votedCharacter = characterName;
             localStorage.setItem('voted', characterName);
-            showSuccess(`Merci ! Votre vote pour ${characterName} a été enregistré`);
             
-            // Désactiver tous les boutons
-            document.querySelectorAll('.character-btn').forEach(btn => {
-                btn.disabled = true;
-            });
+            if (isChangingVote) {
+                showSuccess(`Votre vote a été modifié pour ${characterName}`);
+            } else {
+                showSuccess(`Merci ! Votre vote pour ${characterName} a été enregistré`);
+            }
+            
+            // Mettre à jour l'affichage des boutons pour montrer le vote actuel
+            updateButtonsDisplay();
         } else {
             showError(data.error || 'Erreur lors du vote');
         }
@@ -115,12 +120,26 @@ async function handleVote(characterId, characterName) {
     }
 }
 
+// Mettre à jour l'affichage des boutons pour montrer le vote actuel
+function updateButtonsDisplay() {
+    document.querySelectorAll('.character-btn').forEach(btn => {
+        const nameSpan = btn.querySelector('.name');
+        if (nameSpan && nameSpan.textContent === votedCharacter) {
+            btn.classList.add('voted');
+            btn.disabled = false; // Permettre de cliquer à nouveau pour changer
+        } else {
+            btn.classList.remove('voted');
+            btn.disabled = false; // Tous les boutons restent actifs
+        }
+    });
+}
+
 // Afficher message de succès
 function showSuccess(message) {
     const msg = document.getElementById('success-message');
     msg.textContent = message;
     msg.style.display = 'block';
-    setTimeout(() => msg.style.display = 'none', 5000);
+    // Le message reste affiché (pas de timeout)
 }
 
 // Afficher message d'erreur

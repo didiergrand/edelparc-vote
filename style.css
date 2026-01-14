@@ -125,6 +125,17 @@ body {
     cursor: not-allowed;
 }
 
+.character-btn.voted {
+    background: #10b981;
+    border: 2px solid #059669;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.character-btn.voted:hover {
+    background: #059669;
+    transform: scale(1.05);
+}
+
 .character-btn .emoji {
     font-size: 2rem;
 }
