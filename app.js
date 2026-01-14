@@ -31,7 +31,7 @@ function checkVoted() {
 // Charger les personnages
 async function loadCharacters() {
     try {
-        const response = await fetch(`${BASE_PATH}api/characters`);
+        const response = await fetch(`${BASE_PATH}api/characters.php`);
         if (!response.ok) throw new Error('Erreur de chargement');
         
         characters = await response.json();
@@ -88,7 +88,7 @@ async function handleVote(characterId, characterName) {
     }
 
     try {
-        const response = await fetch(`${BASE_PATH}api/vote`, {
+        const response = await fetch(`${BASE_PATH}api/vote.php`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ character_id: characterId })

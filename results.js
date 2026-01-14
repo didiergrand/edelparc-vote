@@ -34,7 +34,7 @@ async function handleLogin(event) {
     password = document.getElementById('password').value;
     
     try {
-        const response = await fetch(`${BASE_PATH}api/results?password=${encodeURIComponent(password)}`);
+        const response = await fetch(`${BASE_PATH}api/results.php?password=${encodeURIComponent(password)}`);
         
         if (response.status === 403) {
             showError('Mot de passe incorrect');
@@ -57,7 +57,7 @@ async function showResults() {
     document.getElementById('results-container').style.display = 'block';
     
     try {
-        const response = await fetch(`${BASE_PATH}api/results?password=${encodeURIComponent(password)}`);
+        const response = await fetch(`${BASE_PATH}api/results.php?password=${encodeURIComponent(password)}`);
         
         if (response.ok) {
             const results = await response.json();
