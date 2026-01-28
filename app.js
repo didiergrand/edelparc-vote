@@ -113,7 +113,6 @@ function displayCharacters() {
         button.onclick = () => handleVote(character.id, character.name);
         
         button.innerHTML = `
-            <span class="emoji">✨</span>
             <span class="name">${character.name}</span>
         `;
         
