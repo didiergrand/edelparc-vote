@@ -43,7 +43,7 @@ function checkVoted() {
     }
 }
 
-// Charger les char ou groupes
+// Charger les parcs d'attractions
 async function loadCharacters() {
     try {
         const response = await fetch(`${BASE_PATH}api/characters.php`);
@@ -56,12 +56,12 @@ async function loadCharacters() {
         hideLoading();
     } catch (error) {
         console.error('Erreur chargement:', error);
-        showError('Erreur lors du chargement des char ou groupes');
+        showError('Erreur lors du chargement des parcs d\'attractions');
         hideLoading();
     }
 }
 
-// Afficher les char ou groupes
+// Afficher les parcs d'attractions
 function displayCharacters() {
     const grid = document.getElementById('characters-grid');
     grid.innerHTML = '';
