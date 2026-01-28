@@ -60,6 +60,14 @@ async function checkVoteStatus() {
     }
 }
 
+// Mélanger aléatoirement les parcs d'attractions (algo de Fisher-Yates)
+function shuffleCharacters() {
+    for (let i = characters.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [characters[i], characters[j]] = [characters[j], characters[i]];
+    }
+}
+
 // Charger les parcs d'attractions
 async function loadCharacters() {
     try {
@@ -83,7 +91,8 @@ async function loadCharacters() {
         if (!response.ok) throw new Error('Erreur de chargement');
         
         characters = await response.json();
-        characters.sort((a, b) => a.order_position - b.order_position);
+        // Mélanger l'ordre d'affichage à chaque chargement
+        shuffleCharacters();
         
         displayCharacters();
         hideLoading();
