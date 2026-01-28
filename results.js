@@ -1,6 +1,6 @@
 // Page des résultats - JavaScript vanilla
 
-const COLORS = ['#4f46e5', '#7c3aed', '#06b6d4', '#10b981', '#f59e0b', '#ef4444', '#ec4899', '#8b5cf6'];
+const COLORS = ['#f97316', '#fb7185', '#7c3aed', '#22d3ee', '#10b981', '#facc15', '#ef4444', '#0ea5e9'];
 
 let password = '';
 

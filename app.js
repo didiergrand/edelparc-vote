@@ -71,7 +71,7 @@ async function loadCharacters() {
             grid.innerHTML = `
                 <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     <h2 style="color: #991b1b; margin-bottom: 16px;">Les votes sont actuellement fermés</h2>
-                    <p style="color: #6b7280;">Merci de votre intérêt ! Les votes seront ouverts prochainement.</p>
+                    <p style="color: #6b7280;">Merci de votre intérêt !</p>
                 </div>
             `;
             grid.style.display = 'block';
