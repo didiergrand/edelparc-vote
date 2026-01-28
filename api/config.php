@@ -5,7 +5,7 @@
 // Option 1 : Utiliser les variables d'environnement (recommandé)
 // Configurez-les dans Plesk ou dans votre .htaccess avec SetEnv
 $db_host = getenv('DB_HOST') ?: 'localhost';
-$db_name = getenv('DB_NAME') ?: 'edelparc_vote';
+$db_name = getenv('DB_NAME') ?: 'edelparc_vote-test';
 $db_user = getenv('DB_USER') ?: 'edelvote';
 $db_pass = getenv('DB_PASS') ?: 'Q%XJ?o7c6ysp7vbn';
 $admin_password = getenv('ADMIN_PASSWORD') ?: 'edelparc26';
