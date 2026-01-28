@@ -179,7 +179,7 @@ body {
 
 .description {
     font-size: 0.75rem;
-    color: var(--muted);
+    color: #fff;
     text-align: center;
     margin-top: 8px;
 }
