@@ -37,6 +37,19 @@ try {
         exit;
     }
     
+    // Vérifier si les votes sont ouverts
+    $statusStmt = $db->prepare("SELECT value FROM settings WHERE `key` = 'votes_open'");
+    $statusStmt->execute();
+    $setting = $statusStmt->fetch();
+    
+    $votesOpen = $setting ? (int)$setting['value'] === 1 : false;
+    
+    if (!$votesOpen) {
+        http_response_code(403);
+        echo json_encode(['error' => 'Les votes sont actuellement fermés']);
+        exit;
+    }
+    
     $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
     
     // Vérifier si l'utilisateur a déjà voté (basé sur voter_id au lieu de l'IP)

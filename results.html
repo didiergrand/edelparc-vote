@@ -141,6 +141,67 @@
             padding: 60px 20px;
             color: #6b7280;
         }
+        
+        .vote-controls {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .vote-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .status-badge.open {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-badge.closed {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .toggle-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        
+        .toggle-btn.open {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .toggle-btn.open:hover {
+            background: #dc2626;
+        }
+        
+        .toggle-btn.closed {
+            background: #10b981;
+            color: white;
+        }
+        
+        .toggle-btn.closed:hover {
+            background: #059669;
+        }
     </style>
 </head>
 <body>
@@ -173,6 +234,14 @@
         </div>
 
         <div id="error-message" class="message error" style="display: none;"></div>
+
+        <div id="vote-controls" class="vote-controls" style="display: none;">
+            <div class="vote-status">
+                <span>État du vote :</span>
+                <span id="status-badge" class="status-badge"></span>
+            </div>
+            <button id="toggle-votes-btn" class="toggle-btn" onclick="toggleVotes()"></button>
+        </div>
 
         <div id="results-list" class="results-list"></div>
     </div>

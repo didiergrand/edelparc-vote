@@ -43,9 +43,42 @@ function checkVoted() {
     }
 }
 
+// Vérifier l'état du vote
+async function checkVoteStatus() {
+    try {
+        const response = await fetch(`${BASE_PATH}api/vote-status.php`);
+        if (!response.ok) {
+            // Si l'API n'est pas disponible, on considère que les votes sont ouverts par défaut
+            return true;
+        }
+        const data = await response.json();
+        return data.votes_open === true;
+    } catch (error) {
+        console.error('Erreur vérification état:', error);
+        // En cas d'erreur, on considère que les votes sont ouverts par défaut
+        return true;
+    }
+}
+
 // Charger les parcs d'attractions
 async function loadCharacters() {
     try {
+        // Vérifier d'abord si les votes sont ouverts
+        const votesOpen = await checkVoteStatus();
+        
+        if (!votesOpen) {
+            const grid = document.getElementById('characters-grid');
+            grid.innerHTML = `
+                <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <h2 style="color: #991b1b; margin-bottom: 16px;">Les votes sont actuellement fermés</h2>
+                    <p style="color: #6b7280;">Merci de votre intérêt ! Les votes seront ouverts prochainement.</p>
+                </div>
+            `;
+            grid.style.display = 'block';
+            hideLoading();
+            return;
+        }
+        
         const response = await fetch(`${BASE_PATH}api/characters.php`);
         if (!response.ok) throw new Error('Erreur de chargement');
         
@@ -101,6 +134,13 @@ function displayCharacters() {
 
 // Gérer le vote
 async function handleVote(characterId, characterName) {
+    // Vérifier d'abord si les votes sont ouverts
+    const votesOpen = await checkVoteStatus();
+    if (!votesOpen) {
+        showError('Les votes sont actuellement fermés');
+        return;
+    }
+    
     // Permettre de modifier le vote
     const isChangingVote = voted && votedCharacter !== characterName;
     

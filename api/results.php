@@ -22,6 +22,12 @@ try {
         exit;
     }
     
+    // Récupérer l'état du vote
+    $statusStmt = $db->prepare("SELECT value FROM settings WHERE `key` = 'votes_open'");
+    $statusStmt->execute();
+    $setting = $statusStmt->fetch();
+    $votesOpen = $setting ? (int)$setting['value'] === 1 : false;
+    
     // Récupérer les parcs d'attractions avec le nombre de votes
     $stmt = $db->query("
         SELECT 
@@ -41,7 +47,10 @@ try {
         $result['votes'] = (int)$result['votes'];
     }
     
-    echo json_encode($results);
+    echo json_encode([
+        'results' => $results,
+        'votes_open' => $votesOpen
+    ]);
     
 } catch (PDOException $e) {
     error_log("Error fetching results: " . $e->getMessage());

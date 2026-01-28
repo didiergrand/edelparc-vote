@@ -60,9 +60,13 @@ async function showResults() {
         const response = await fetch(`${BASE_PATH}api/results.php?password=${encodeURIComponent(password)}`);
         
         if (response.ok) {
-            const results = await response.json();
+            const data = await response.json();
+            const results = data.results || data; // Compatibilité avec ancien format
+            const votesOpen = data.votes_open !== undefined ? data.votes_open : true;
+            
             results.sort((a, b) => b.votes - a.votes);
             displayResults(results);
+            updateVoteControls(votesOpen);
         } else {
             showError('Erreur lors du chargement des résultats');
         }
@@ -109,6 +113,65 @@ function displayResults(results) {
         
         list.appendChild(item);
     });
+}
+
+// Mettre à jour les contrôles de vote
+function updateVoteControls(votesOpen) {
+    const controls = document.getElementById('vote-controls');
+    const badge = document.getElementById('status-badge');
+    const btn = document.getElementById('toggle-votes-btn');
+    
+    if (!controls || !badge || !btn) return;
+    
+    controls.style.display = 'flex';
+    
+    if (votesOpen) {
+        badge.textContent = 'Ouvert';
+        badge.className = 'status-badge open';
+        btn.textContent = 'Fermer les votes';
+        btn.className = 'toggle-btn open';
+    } else {
+        badge.textContent = 'Fermé';
+        badge.className = 'status-badge closed';
+        btn.textContent = 'Ouvrir les votes';
+        btn.className = 'toggle-btn closed';
+    }
+}
+
+// Basculer l'état des votes
+async function toggleVotes() {
+    const btn = document.getElementById('toggle-votes-btn');
+    const badge = document.getElementById('status-badge');
+    
+    if (!btn || !badge) return;
+    
+    const currentState = badge.textContent === 'Ouvert';
+    const newState = !currentState;
+    
+    // Désactiver le bouton pendant la requête
+    btn.disabled = true;
+    btn.textContent = 'Chargement...';
+    
+    try {
+        const response = await fetch(`${BASE_PATH}api/toggle-votes.php?password=${encodeURIComponent(password)}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ votes_open: newState })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            updateVoteControls(data.votes_open);
+        } else {
+            const error = await response.json();
+            showError(error.error || 'Erreur lors de la modification de l\'état');
+        }
+    } catch (error) {
+        console.error('Erreur toggle votes:', error);
+        showError('Erreur de connexion');
+    } finally {
+        btn.disabled = false;
+    }
 }
 
 // Afficher erreur
