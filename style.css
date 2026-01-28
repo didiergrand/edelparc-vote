@@ -24,14 +24,18 @@ body {
                 radial-gradient(circle at 50% 80%, rgba(249, 115, 22, 0.2), transparent 35%),
                 linear-gradient(135deg, #0f172a 0%, #0b1220 45%, #111827 100%);
     min-height: 100vh;
-    padding: 24px;
     color: var(--text);
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding-bottom: 120px;
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Header */
@@ -67,18 +71,20 @@ body {
     margin-bottom: 24px;
     text-align: center;
     font-weight: 500;
+    margin-top: 24px;
+    margin-bottom: 24px;
 }
 
 .message.success {
     background-color: rgba(34, 197, 94, 0.15);
     border: 1px solid #22c55e;
-    color: #14532d;
+    color: #22c55e;
 }
 
 .message.error {
     background-color: rgba(239, 68, 68, 0.15);
     border: 1px solid #ef4444;
-    color: #7f1d1d;
+    color: #ef4444;
 }
 
 /* Loading */
@@ -179,16 +185,13 @@ body {
 
 /* Footer */
 .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
     background: rgba(15, 23, 42, 0.9);
     border-top: 1px solid rgba(255, 255, 255, 0.06);
     padding: 16px;
     text-align: center;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
+    margin-top: auto;
 }
 
 .btn {
@@ -417,7 +420,7 @@ body {
 /* Responsive */
 @media (max-width: 640px) {
     .header h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
     
     .characters-grid {
@@ -433,5 +436,10 @@ body {
 .site-info,
 .site-info a {
     color: #fff;
+    font-size: 0.8rem;
     text-align: center;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
 }
