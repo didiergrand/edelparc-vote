@@ -122,7 +122,7 @@ function displayCharacters() {
             const desc = document.createElement('p');
             desc.className = 'description';
             desc.textContent = character.description;
-            card.appendChild(desc);
+            button.appendChild(desc);
         }
         
         grid.appendChild(card);
