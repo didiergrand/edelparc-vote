@@ -438,13 +438,12 @@ body {
         padding: 20px 12px;
     }
 }
-.site-info,
-.site-info a {
+.site-info{
     color: #fff;
     font-size: 0.8rem;
     text-align: center;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
+}
+.site-info a{
+    color: var(--primary);
+    text-decoration: underline;
 }
