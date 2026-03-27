@@ -46,7 +46,7 @@ body {
 .header {
     text-align: center;
     padding: 36px 24px 28px;
-    background: rgba(26, 40, 87, 0.7);
+    background: var(--text);
     border: 1px solid var(--border-gold);
     border-radius: 20px;
     box-shadow: 0 0 40px rgba(245, 197, 24, 0.08), 0 20px 60px rgba(0, 0, 0, 0.4);
@@ -63,34 +63,15 @@ body {
     background: linear-gradient(90deg, var(--pink), var(--gold), var(--sky));
 }
 
-.header-logo {
-    font-size: 2rem;
-    font-weight: 900;
-    letter-spacing: 2px;
-    color: var(--navy-dark);
-    background: var(--gold);
-    display: inline-block;
-    padding: 6px 20px;
-    border-radius: 8px;
-    margin-bottom: 18px;
-    text-transform: uppercase;
-}
-
-.header-logo .star {
-    color: var(--pink);
-    margin: 0 2px;
-}
-
-.header-logo sup {
-    font-size: 1rem;
-    vertical-align: super;
+.header-logo img{
+    width: 200px;
+    height: auto;
 }
 
 .header h1 {
     font-size: 2rem;
     font-weight: 800;
-    color: #ffffff;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    color: var(--navy-dark);
     letter-spacing: 0.5px;
 }
 
