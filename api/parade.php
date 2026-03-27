@@ -16,20 +16,20 @@ try {
     
     $stmt = $db->query("
         SELECT id, name, description, order_position 
-        FROM characters 
+        FROM parade 
         ORDER BY order_position ASC
     ");
     
-    $characters = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $parade = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    echo json_encode($characters);
+    echo json_encode($parade);
 } catch (PDOException $e) {
-    error_log("Error fetching characters: " . $e->getMessage());
+    error_log("Error fetching parade: " . $e->getMessage());
     http_response_code(500);
-    echo json_encode(['error' => 'Failed to fetch characters']);
+    echo json_encode(['error' => 'Failed to fetch parade']);
 } catch (Exception $e) {
     error_log("Error: " . $e->getMessage());
     http_response_code(500);
-    echo json_encode(['error' => 'Failed to fetch characters']);
+    echo json_encode(['error' => 'Failed to fetch parade']);
 }
 ?>

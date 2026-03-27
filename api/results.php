@@ -34,7 +34,7 @@ try {
             c.id,
             c.name,
             COUNT(v.id) as votes
-        FROM characters c
+        FROM parade c
         LEFT JOIN votes v ON c.id = v.character_id
         GROUP BY c.id, c.name
         ORDER BY votes DESC, c.order_position ASC

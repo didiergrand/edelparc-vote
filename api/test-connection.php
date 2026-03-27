@@ -45,8 +45,8 @@ header('Content-Type: text/html; charset=utf-8');
     echo "<h2>2. Vérification des tables</h2>";
     try {
         $tables = $db->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
-        if (in_array('characters', $tables) && in_array('votes', $tables)) {
-            echo "<div class='success'>✅ Tables 'characters' et 'votes' trouvées</div>";
+        if (in_array('parade', $tables) && in_array('votes', $tables)) {
+            echo "<div class='success'>✅ Tables 'parade' et 'votes' trouvées</div>";
         } else {
             echo "<div class='error'>❌ Tables manquantes. Importez le fichier SQL !</div>";
             echo "<p>Tables trouvées : " . implode(', ', $tables) . "</p>";
@@ -56,18 +56,18 @@ header('Content-Type: text/html; charset=utf-8');
     }
     
     // Test 3 : Compter les char ou groupes
-    echo "<h2>3. Données dans la table 'characters'</h2>";
+    echo "<h2>3. Données dans la table 'parade'</h2>";
     try {
-        $stmt = $db->query("SELECT COUNT(*) as count FROM characters");
+        $stmt = $db->query("SELECT COUNT(*) as count FROM parade");
         $count = $stmt->fetch()['count'];
         if ($count > 0) {
             echo "<div class='success'>✅ $count char ou groupe(s) trouvé(s) dans la base</div>";
             
             // Afficher les char ou groupes
-            $characters = $db->query("SELECT id, name, description, order_position FROM characters ORDER BY order_position")->fetchAll();
+            $parade = $db->query("SELECT id, name, description, order_position FROM parade ORDER BY order_position")->fetchAll();
             echo "<table>";
             echo "<tr><th>ID</th><th>Nom</th><th>Description</th><th>Position</th></tr>";
-            foreach ($characters as $char) {
+            foreach ($parade as $char) {
                 echo "<tr>";
                 echo "<td>" . htmlspecialchars($char['id']) . "</td>";
                 echo "<td>" . htmlspecialchars($char['name']) . "</td>";
@@ -98,7 +98,7 @@ header('Content-Type: text/html; charset=utf-8');
     echo "<div class='info'>";
     echo "<p>Testez l'API en visitant :</p>";
     echo "<ul>";
-    echo "<li><a href='characters.php' target='_blank'>characters.php</a> - Liste des char ou groupes</li>";
+    echo "<li><a href='parade.php' target='_blank'>parade.php</a> - Liste des char ou groupes</li>";
     echo "<li><a href='results.php?password=" . urlencode(ADMIN_PASSWORD) . "' target='_blank'>results.php</a> - Résultats (avec mot de passe)</li>";
     echo "</ul>";
     echo "</div>";

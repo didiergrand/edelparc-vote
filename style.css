@@ -112,7 +112,7 @@ body {
 }
 
 /* Characters Grid */
-.characters-grid {
+.parade-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
@@ -428,7 +428,7 @@ body {
         font-size: 1.5rem;
     }
     
-    .characters-grid {
+    .parade-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
     }

@@ -1,6 +1,6 @@
 // Application de vote - JavaScript vanilla
 
-let characters = [];
+let parade = [];
 let voted = false;
 let votedCharacter = null;
 
@@ -62,9 +62,9 @@ async function checkVoteStatus() {
 
 // Mélanger aléatoirement les parcs d'attractions (algo de Fisher-Yates)
 function shuffleCharacters() {
-    for (let i = characters.length - 1; i > 0; i--) {
+    for (let i = parade.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [characters[i], characters[j]] = [characters[j], characters[i]];
+        [parade[i], parade[j]] = [parade[j], parade[i]];
     }
 }
 
@@ -75,7 +75,7 @@ async function loadCharacters() {
         const votesOpen = await checkVoteStatus();
         
         if (!votesOpen) {
-            const grid = document.getElementById('characters-grid');
+            const grid = document.getElementById('parade-grid');
             grid.innerHTML = `
                 <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     <h2 style="color: #991b1b; margin-bottom: 16px;">Les votes sont actuellement fermés</h2>
@@ -87,10 +87,10 @@ async function loadCharacters() {
             return;
         }
         
-        const response = await fetch(`${BASE_PATH}api/characters.php`);
+        const response = await fetch(`${BASE_PATH}api/parade.php`);
         if (!response.ok) throw new Error('Erreur de chargement');
         
-        characters = await response.json();
+        parade = await response.json();
         // Mélanger l'ordre d'affichage à chaque chargement
         shuffleCharacters();
         
@@ -105,10 +105,10 @@ async function loadCharacters() {
 
 // Afficher les parcs d'attractions
 function displayCharacters() {
-    const grid = document.getElementById('characters-grid');
+    const grid = document.getElementById('parade-grid');
     grid.innerHTML = '';
     
-    characters.forEach(character => {
+    parade.forEach(character => {
         const card = document.createElement('div');
         card.className = 'character-card';
         
