@@ -100,7 +100,7 @@ function displayResults(results) {
         item.innerHTML = `
             <div class="rank" style="background-color: ${color}">${index + 1}</div>
             <div class="result-info">
-                <div class="result-name">${result.name}</div>
+                <div class="result-name">${result.name}${result.description ? ` <span class="result-description">${result.description}</span>` : ''}</div>
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: ${percentage}%; background-color: ${color}"></div>
                 </div>

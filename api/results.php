@@ -30,13 +30,14 @@ try {
     
     // Récupérer les parcs d'attractions avec le nombre de votes
     $stmt = $db->query("
-        SELECT 
+        SELECT
             c.id,
             c.name,
+            c.description,
             COUNT(v.id) as votes
         FROM parade c
         LEFT JOIN votes v ON c.id = v.character_id
-        GROUP BY c.id, c.name
+        GROUP BY c.id, c.name, c.description
         ORDER BY votes DESC, c.order_position ASC
     ");
     

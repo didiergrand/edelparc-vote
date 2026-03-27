@@ -397,6 +397,13 @@ body {
     color: white;
 }
 
+.result-description {
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin-left: 8px;
+}
+
 .progress-bar {
     height: 8px;
     background: rgba(255,255,255,0.1);
